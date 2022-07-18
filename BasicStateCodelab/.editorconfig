@@ -1,0 +1,2 @@
+[*.{kt,kts}]
+2 disabled_rules = enum-entry-name-case, no-wildcard-imports, final-newline, filename
