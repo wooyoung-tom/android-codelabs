@@ -12,5 +12,5 @@ Google Android Codelabs 를 혼자서 씹고 뜯고 맛보고 즐기려고 만�
 
 [XX. Intro to State - Tip Time (진행중)](https://developer.android.com/codelabs/basic-android-kotlin-compose-using-state?hl=en#0)
 
-### ViewModel
+### AAC ViewModel
 [1. Store data in ViewModel](https://developer.android.com/codelabs/basic-android-kotlin-training-viewmodel#0)
