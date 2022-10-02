@@ -10,7 +10,7 @@
 
 > 💡 State `is`. Events `happen`.
 
-[Figure.1](assets/compose_event_1.png)
+![Figure.1](assets/compose_event_1.png)
 - Event: 사용자 또는 다른 프로그램에 의해 발생합니다.
 - Update State: 이벤트 핸들러가 UI 에서 사용되는 상태를 변경합니다.
 - Display State: UI 가 업데이트되어 새로운 state 가 표시됩니다.
