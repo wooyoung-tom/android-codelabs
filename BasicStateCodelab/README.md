@@ -74,3 +74,57 @@
 ![Figure.8](assets/state_in_jetpack_compose_8.png)
 
 ## Restore state in Compose
+
+- 기기를 rotate 하거나 light/night 모드를 변경하는 등의 configuration 을 변경할 것입니다.
+- `remember` 키워드는 recomposition 시에는 데이터를 유지해주지만, configuration 변경 시에는 유지하지 못합니다.
+- 그래서 우리는 `rememberSaveable` 키워드를 사용할 것입니다.
+
+## State hoisting
+
+`remember` 를 사용하여 객체를 저장하는 composable 에는 내부 상태가 포함되어 있습니다. 이는 composable 을 **stateful** 하게 만듭니다.
+
+하지만, 내부 상태를 가지는 composable 은 재사용성이 떨어지고, 테스트하기 어려운 경향이 있습니다.
+
+Composable 이 아무 state 도 가지지 않으면 **stateless composable** 이라고 부릅니다.
+
+Compose 에서의 State hoisting 은 state 를 composable 을 호출하는 곳으로 옮겨서 composable 을 stateless 하게 만드는 것입니다.
+
+hoist 된 state 는 몇가지 중요한 속성들을 가집니다.
+
+- `Single source of truth`: state 를 호출자에게 옮기면, 오로지 하나뿐인 원천지를 보장하기 때문에 버그를 피할 수 있습니다.
+- `Shareable`: hoist 된 state 는 여러가지 composable 에서 공유할 수 있습니다.
+- `Interceptable`: stateless composable 에 대한 호출자는 상태를 변경하기 전에 이벤트를 무시하거나 수정할 수 있습니다.
+- `Decoupled`: stateless composable 함수의 state 는 어디든 저장될 수 있습니다. (예를 들면, ViewModel)
+
+> **stateless** composable 은 아무 state 도 가지지 않는 composable 입니다. 즉 새로운 state 를 가지고 있거나, 정의하거나, 수정하지 않는다는 뜻입니다.
+>
+> 반면, **stateful** composable 은 언제든지 바꿀 수 있는 state 를 가지고 있습니다.
+
+### Key Point
+
+state 를 hoisting 할 때는 세 가지 규칙을 지켜야 합니다.
+
+1. state 는 __최소한__ 해당 state 를 사용하는 모든 composable 의 **최소 공통 부모**에 의해 hoist 되어야 합니다.
+2. state 는 __최소한__ **변경 가능한 가장 높은 레벨**로 hoist 되어야 합니다.
+3. 만약 **두 state 가 같은 이벤트의 응답으로 변경되었을 때**에는 **같은 레벨로 hoist** 되어야 합니다.
+
+## Work with lists
+
+### Restore item state in LazyList
+
+- check state 를 단순히 `remember` 로 해버리면, LazyColumn 이 스크롤되어서 해당 composable 이 보이지 않을 때 상태를 잃어버리게 됩니다.
+- `rememberSaveable` 을 통해 state 를 유지할 수 있습니다.
+
+### Common patterns in Compose
+
+- composable 함수인 `rememberLazyListState` 를 사용하면, `rememberSaveable` 을 사용하여 리스트의 초기 상태를 만듭니다.
+- 그러면 Activity 가 재생성 되었을 때, 스크롤 상태가 유지됩니다.
+- `LazyListState` 를 애용해봅시다.
+
+## Observable MutableList
+
+- `MutableList` 의 확장함수인 `toMutableStateList()` 를 사용하면 observable 한 `MutableList` 를 만들 수 있습니다.
+
+![Figure.9](assets/state_in_jetpack_compose_9.png)
+
+## State in ViewModel
